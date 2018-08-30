@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-public class SQLManager {
+public class SQLManager extends DataManager{
 	private static final String CREATE_SIGNIN_TABLE = "CREATE TABLE IF NOT EXISTS signin (Name VARCHAR(30),UUID VARCHAR(40),Date VARCHAR(30),isLate BOOLEAN)";
 	private static final String CREATE_PATCH_TABLE = "CREATE TABLE IF NOT EXISTS patch (Name VARCHAR(30),UUID VARCHAR(40),Patch INTEGER)";
 	private static final String CREATE_REWARDS_TABLE = "CREATE TABLE IF NOT EXISTS rewards (Name VARCHAR(30),UUID VARCHAR(40),Reward VARCHAR(30))";
@@ -163,7 +163,7 @@ public class SQLManager {
 		}
 	}
 
-	public boolean isSignINToday(Player player) {
+	public boolean isSigninToday(Player player) {
 		boolean b = false;
 		try {
 			Connection conn = pool.getConnection();
@@ -227,6 +227,11 @@ public class SQLManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void onDisbale() {
+		this.close();
 	}
 
 }

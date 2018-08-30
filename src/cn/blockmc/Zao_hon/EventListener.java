@@ -11,7 +11,7 @@ public class EventListener implements Listener{
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e){
-		plugin.getSql().addNewPlayerPatch(e.getPlayer());
+		plugin.getData().addNewPlayerPatch(e.getPlayer());
 	}
 
 }

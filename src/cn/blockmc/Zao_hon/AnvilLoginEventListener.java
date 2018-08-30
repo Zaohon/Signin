@@ -15,7 +15,7 @@ public class AnvilLoginEventListener implements Listener {
 	@EventHandler
 	public void onPlayerLogged(PlayerLoggedEvent e) {
 		Player p = e.getPlayer();
-		if (!plugin.getSql().isSignINToday(p)) p.sendMessage("§d你今天还没签到哦！输入/Signin来签到");
+		if (!plugin.getData().isSigninToday(p)) p.sendMessage("§d你今天还没签到哦！输入/Signin来签到");
 	}
 
 }

@@ -37,8 +37,8 @@ public class SigninGUI implements Listener {
 		timeday = Calendar.getInstance();
 		this.player = p;
 		this.plugin = plugin;
-		signinlist = plugin.getSql().getAllPlayerSignin(p);
-		hasrewards = plugin.getSql().getPlayerRewards(p);
+		signinlist = plugin.getData().getAllPlayerSignin(p);
+		hasrewards = plugin.getData().getPlayerRewards(p);
 		maininventory = Bukkit.createInventory(null, 54, "§a§l签到系统");
 		totalinventory = Bukkit.createInventory(null, 54, "§a累计签到");
 		continueinventory = Bukkit.createInventory(null, 54, "§a连续签到");
@@ -48,7 +48,7 @@ public class SigninGUI implements Listener {
 		meta.setDisplayName("§a返回主菜单");
 		gomaininv.setItemMeta(meta);
 
-		patchnum = plugin.getSql().getPlayerPatch(p);
+		patchnum = plugin.getData().getPlayerPatch(p);
 		updateContinuousSign();
 
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -116,7 +116,6 @@ public class SigninGUI implements Listener {
 				item.setItemMeta(meta);
 			}
 			continueinventory.setItem(i, item);
-			i++;
 		}
 		continueinventory.setItem(45, gomaininv.clone());
 	}
@@ -161,7 +160,6 @@ public class SigninGUI implements Listener {
 				item.setItemMeta(meta);
 			}
 			totalinventory.setItem(i, item);
-			i++;
 		}
 		totalinventory.setItem(45, gomaininv.clone());
 	}
@@ -238,13 +236,13 @@ public class SigninGUI implements Listener {
 
 		ItemStack continuous = new ItemStack(Material.SIGN, continuousnum);
 		ItemMeta cmeta = continuous.getItemMeta();
-		cmeta.setDisplayName("§a累计签到");
+		cmeta.setDisplayName("§a连续签到");
 		continuous.setItemMeta(cmeta);
 		maininventory.setItem(35, continuous);
 
 		ItemStack total = new ItemStack(Material.SIGN, signinlist.size());
 		ItemMeta tmeta = total.getItemMeta();
-		tmeta.setDisplayName("§a连续签到");
+		tmeta.setDisplayName("§a累计签到");
 		total.setItemMeta(tmeta);
 		maininventory.setItem(26, total);
 
@@ -312,8 +310,8 @@ public class SigninGUI implements Listener {
 						if (patchnum > 0) {
 							int year = timeday.get(Calendar.YEAR);
 							String fd = year + "." + d;
-							plugin.getSql().inserctPlayerSignin(p, fd, true);
-							plugin.getSql().addPlayerPatch(p, -1);
+							plugin.getData().inserctPlayerSignin(p, fd, true);
+							plugin.getData().addPlayerPatch(p, -1);
 
 							Reward reward = plugin.getReward("PatchReward");
 							reward.givePlayer(plugin, player);
@@ -338,14 +336,14 @@ public class SigninGUI implements Listener {
 					} else if (lores.contains("§a§l可签到")) {
 						int year = timeday.get(Calendar.YEAR);
 						String fd = year + "." + d;
-						if (plugin.getSql().isTodayFirstSignin()) {
+						if (plugin.getData().isTodayFirstSignin()) {
 							Reward reward = plugin.getReward("FirstSigninReward");
 							reward.givePlayer(plugin, player);
 							player.sendMessage(reward.getMessage().replace("%year%", year + "")
 									.replace("%month%", timeday.get(Calendar.MONTH) + 1 + "")
 									.replace("%day%", timeday.get(Calendar.DAY_OF_MONTH) + ""));
 						}
-						plugin.getSql().inserctPlayerSignin(p, fd, false);
+						plugin.getData().inserctPlayerSignin(p, fd, false);
 						Reward reward = plugin.getReward("SigninReward");
 						reward.givePlayer(plugin, player);
 						player.sendMessage(reward.getMessage().replace("%year%", year + "")
@@ -378,7 +376,7 @@ public class SigninGUI implements Listener {
 						String rewardname = meta.getLocalizedName();
 						Reward reward = plugin.getReward(rewardname);
 						reward.givePlayer(plugin, p);
-						plugin.getSql().addPlayerReward(p, rewardname);
+						plugin.getData().addPlayerReward(p, rewardname);
 						hasrewards.add(rewardname);
 						updateTotalInventory();
 					}
@@ -398,7 +396,7 @@ public class SigninGUI implements Listener {
 						String rewardname = meta.getLocalizedName();
 						Reward reward = plugin.getReward(rewardname);
 						reward.givePlayer(plugin, p);
-						plugin.getSql().addPlayerReward(p, rewardname);
+						plugin.getData().addPlayerReward(p, rewardname);
 						hasrewards.add(rewardname);
 						updateContinuousInventory();
 					}

@@ -46,7 +46,7 @@ public class Reward {
 			}
 		}
 		if (patch != 0)
-			plugin.getSql().addPlayerPatch(p, patch);
+			plugin.getData().addPlayerPatch(p, patch);
 	}
 
 	public String getMessage() {
