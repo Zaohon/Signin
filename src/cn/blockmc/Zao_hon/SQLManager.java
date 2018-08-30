@@ -17,7 +17,7 @@ public class SQLManager {
 	private static final String CREATE_REWARDS_TABLE = "CREATE TABLE IF NOT EXISTS rewards (Name VARCHAR(30),UUID VARCHAR(40),Reward VARCHAR(30))";
 	private static final String INSERT_PLAYER_SIGNIN = "INSERT INTO signin VALUES(?,?,?,?)";
 	private static final String INSERT_PLAYER_REWARD = "INSERT INTO rewards VALUES(?,?,?)";
-	private static final String INSERT_NEW_PLAYER_PATCH = "INSERT INTO patch (Name,UUID,Patch) SELECT ?,?,0 FROM DUAL WHERE NOT EXISTS (SELECT * FROM patch WHERE UUID = ?) ";
+	private static final String INSERT_NEW_PLAYER_PATCH = "INSERT INTO patch (Name,UUID,Patch) SELECT ?,?,0 WHERE NOT EXISTS (SELECT * FROM patch WHERE UUID = ?) ";
 	private static final String SELECT_PLAYER_REWARDS = "SELECT Reward FROM rewards WHERE UUID = ?";
 	private static final String SELECT_PLAYER_SIGNIN = "SELECT Date FROM signin WHERE UUID = ? ORDER BY Date";
 	private static final String SELECT_ISSIGNIN_TODAY = "SELECT * FROM signin WHERE UUID = ? AND Date = ?";
@@ -163,22 +163,6 @@ public class SQLManager {
 		}
 	}
 
-	public int getPlayerTotalSigninNumber(Player p) {
-		int i = 0;
-		try {
-			Connection conn = pool.getConnection();
-			PreparedStatement s = conn.prepareStatement(SELECT_PLAYER_SIGNIN);
-			s.setString(1, p.getUniqueId().toString());
-			ResultSet rs = s.executeQuery();
-			rs.last();
-			i = rs.getRow();
-			pool.releaseConnection(conn);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return i;
-	}
-
 	public boolean isSignINToday(Player player) {
 		boolean b = false;
 		try {
@@ -227,6 +211,7 @@ public class SQLManager {
 			s.execute();
 			pool.releaseConnection(conn);
 		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

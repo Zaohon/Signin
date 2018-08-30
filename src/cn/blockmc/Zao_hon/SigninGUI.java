@@ -2,8 +2,8 @@ package cn.blockmc.Zao_hon;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
+//import java.util.HashMap;
+//import java.util.Iterator;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -78,12 +78,14 @@ public class SigninGUI implements Listener {
 
 	public void updateContinuousInventory() {
 		continueinventory.clear();
-		HashMap<String, Reward> rewards = plugin.getContinuousRewards();
-		Iterator<String> it = rewards.keySet().iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			String rewardname = it.next();
-			Reward reward = rewards.get(rewardname);
+//		HashMap<String, Reward> rewards = plugin.getContinuousRewards();
+		List<String> rewards = plugin.getContinuousRewards();
+//		Iterator<String> it = rewards.keySet().iterator();
+//		int i = 0;
+		for(int i=0;i<rewards.size();i++){
+//		while (it.hasNext()) {
+			String rewardname = rewards.get(i);
+			Reward reward = plugin.getReward(rewardname);
 			int day = reward.getDays();
 			ItemStack item = new ItemStack(Material.SIGN, day);
 			String displayname = reward.getDisplayName();
@@ -121,12 +123,14 @@ public class SigninGUI implements Listener {
 
 	public void updateTotalInventory() {
 		totalinventory.clear();
-		HashMap<String, Reward> rewards = plugin.getTotalRewards();
-		Iterator<String> it = rewards.keySet().iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			String rewardname = it.next();
-			Reward reward = rewards.get(rewardname);
+//		HashMap<String, Reward> rewards = plugin.getTotalRewards();
+		List<String> rewards = plugin.getTotalRewards();
+//		Iterator<String> it = rewards.keySet().iterator();
+//		int i = 0;
+		for(int i=0;i<rewards.size();i++){
+//		while (it.hasNext()) {
+			String rewardname = rewards.get(i);
+			Reward reward = plugin.getReward(rewardname);
 			int day = reward.getDays();
 			ItemStack item = new ItemStack(Material.SIGN, day);
 			String displayname = reward.getDisplayName();
@@ -311,7 +315,7 @@ public class SigninGUI implements Listener {
 							plugin.getSql().inserctPlayerSignin(p, fd, true);
 							plugin.getSql().addPlayerPatch(p, -1);
 
-							Reward reward = plugin.getPatchReward();
+							Reward reward = plugin.getReward("PatchReward");
 							reward.givePlayer(plugin, player);
 							player.sendMessage(reward.getMessage().replace("%year%", year + "")
 									.replace("%month%", timeday.get(Calendar.MONTH) + 1 + "")
@@ -335,14 +339,14 @@ public class SigninGUI implements Listener {
 						int year = timeday.get(Calendar.YEAR);
 						String fd = year + "." + d;
 						if (plugin.getSql().isTodayFirstSignin()) {
-							Reward reward = plugin.getFirstSigninReward();
+							Reward reward = plugin.getReward("FirstSigninReward");
 							reward.givePlayer(plugin, player);
 							player.sendMessage(reward.getMessage().replace("%year%", year + "")
 									.replace("%month%", timeday.get(Calendar.MONTH) + 1 + "")
 									.replace("%day%", timeday.get(Calendar.DAY_OF_MONTH) + ""));
 						}
 						plugin.getSql().inserctPlayerSignin(p, fd, false);
-						Reward reward = plugin.getSigninReward();
+						Reward reward = plugin.getReward("SigninReward");
 						reward.givePlayer(plugin, player);
 						player.sendMessage(reward.getMessage().replace("%year%", year + "")
 								.replace("%month%", timeday.get(Calendar.MONTH) + 1 + "")
@@ -372,7 +376,7 @@ public class SigninGUI implements Listener {
 					List<String> lores = meta.getLore();
 					if (lores.contains("§d§l可领取")) {
 						String rewardname = meta.getLocalizedName();
-						Reward reward = plugin.getTotalRewards().get(rewardname);
+						Reward reward = plugin.getReward(rewardname);
 						reward.givePlayer(plugin, p);
 						plugin.getSql().addPlayerReward(p, rewardname);
 						hasrewards.add(rewardname);
@@ -392,7 +396,7 @@ public class SigninGUI implements Listener {
 					List<String> lores = meta.getLore();
 					if (lores.contains("§d§l可领取")) {
 						String rewardname = meta.getLocalizedName();
-						Reward reward = plugin.getContinuousRewards().get(rewardname);
+						Reward reward = plugin.getReward(rewardname);
 						reward.givePlayer(plugin, p);
 						plugin.getSql().addPlayerReward(p, rewardname);
 						hasrewards.add(rewardname);
