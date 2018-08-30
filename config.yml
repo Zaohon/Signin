@@ -1,0 +1,62 @@
+TotalRewards:
+  新人报道:
+    Day: 1
+    DisplayName: "§a§l新人报道"
+    Lore:
+      - "§8暂时没有任何奖励"
+    Message: "第一次签到成功哦！"
+  持之以恒:
+    Day: 2
+    DisplayName: "§a§l持之以恒"
+    Lore:
+      - "§8暂时还是没有任何奖励"
+    Patch: 2
+  天天在线:
+    Day: 5
+    DisplayName: "经常在线"
+  
+ContinuousRewards:
+  连续签到第一天:
+    Day: 1
+    DisplayName: "§a§l连续签到第一天"
+    Lore:
+      - "还在测试中，依然没有任何奖励"
+
+FirstSigninReward:
+  Vault: 50
+  Message: "§d你是今天第一个签到的哦！奖励§b50方块币！"
+  
+SigninReward:
+  Vault: 10
+  Message: "§d签到成功,时间§b%month%月%day%号"
+
+PatchReward:
+  Vault: 10
+  Message: "§d补签成功！"
+
+PatchDay: 7
+
+CloseInvAfterSignin: false
+
+CloseInvAfterPatchSignin: false
+
+Special-Day:
+  2018.8.22:
+    Material: CLOCK
+    Lore:
+      - "§e§n开学第一天"
+      - "§6奖励1张补签卡"
+    Message: ""
+      
+    
+    
+
+MYSQL:
+  Enable: false
+  Host: "localhost"
+  Port: "3306"
+  DatabaseName: "signin"
+  UserName: "root"
+  Password: "123456"
+  
+

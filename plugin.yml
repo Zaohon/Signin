@@ -1,0 +1,11 @@
+api-version: 1.13
+main: cn.blockmc.Zao_hon.Signin
+name: Signin
+author: Zao_hon
+version: 0.1
+softdepends: [AnvilLogin,Vault]
+commands:
+    Signin:
+permission:
+    Signin.reload:
+        default: op
